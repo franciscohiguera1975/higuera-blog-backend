@@ -8,6 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule); // 👈 Tipo específico
+  app.enableCors();
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
   app.useGlobalFilters(new GlobalHttpExceptionFilter());
   app.useStaticAssets(join(__dirname, '..', 'public')); // 👈 Habilita acceso público a /public
