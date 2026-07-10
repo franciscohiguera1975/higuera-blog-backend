@@ -24,7 +24,7 @@ export class AppService {
       "service": "blog service api",
       "version": "0.0.1",
       "date":  new Date(),
-      "testing": "Test CI/CD"
+      "testing": "Test CI/CD-10-07"
     };
   }
 
