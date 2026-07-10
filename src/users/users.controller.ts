@@ -7,6 +7,7 @@ import { QueryDto } from '../common/dtos/query.dto';
 import { SuccessResponseDto } from '../common/dtos/response.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { join } from 'path';
 
 @Controller('users')
 @UseGuards(JwtAuthGuard)
@@ -50,13 +51,13 @@ export class UsersController {
 
   @Put(':id/profile')
   @UseInterceptors(FileInterceptor('profile', {
-    storage: diskStorage({
-      destination: './public/profile',
-      filename: (req, file, cb) => {
-        const uniqueName = `${Date.now()}-${file.originalname}`;
-        cb(null, uniqueName);
-      }
-    }),
+  storage: diskStorage({
+    destination: join(process.cwd(), 'public', 'profile'),
+    filename: (req, file, cb) => {
+      const uniqueName = `${Date.now()}-${file.originalname}`;
+      cb(null, uniqueName);
+    }
+  }),
     fileFilter: (req, file, cb) => {
       if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
         return cb(new BadRequestException('Only JPG or PNG files are allowed'), false);
