@@ -17,8 +17,8 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { SuccessResponseDto } from '../common/dtos/response.dto';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { UsersService } from 'src/users/users.service';
-import { User } from 'src/users/user.entity';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/user.entity';
 
 @Controller('auth')
 export class AuthController {

@@ -2,13 +2,18 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { UsersService } from '../users/users.service';
 
 describe('AuthController', () => {
   let controller: AuthController;
 
   const mockAuthService = {
-    login:    jest.fn(),
+    login: jest.fn(),
     register: jest.fn(),
+  };
+
+  const mockUsersService = {
+    unlinkGoogleId: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -18,6 +23,7 @@ describe('AuthController', () => {
       controllers: [AuthController],
       providers: [
         { provide: AuthService, useValue: mockAuthService },
+        { provide: UsersService, useValue: mockUsersService },
       ],
     }).compile();
 

@@ -122,7 +122,13 @@ export class UsersService {
   }
 
   async createFromGoogle(data: { username: string; email: string; googleId: string; avatarUrl?: string }) {
-    const user = this.userRepository.create({ ...data, isActive: true });
+    const placeholderPassword = await bcrypt.hash(`google-${Date.now()}-${Math.random().toString(36).slice(2)}`, 10);
+    const user = this.userRepository.create({
+      ...data,
+      username: data.username || data.email.split('@')[0],
+      password: placeholderPassword,
+      isActive: true,
+    });
     return this.userRepository.save(user);
   }
 
