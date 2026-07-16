@@ -11,7 +11,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async login(loginDto: LoginDto): Promise<string | null> {
     try {
@@ -34,6 +34,11 @@ export class AuthService {
     if (!user) return null;
 
     const payload = { id: user.id, email: user.username };
+    return this.jwtService.sign(payload);
+  }
+
+  async loginWithUser(user: User): Promise<string> {
+    const payload = { id: user.id, username: user.username };
     return this.jwtService.sign(payload);
   }
 }

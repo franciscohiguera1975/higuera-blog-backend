@@ -9,6 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
+import { GoogleStrategy } from './google.strategy';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 
 
 @Module({
@@ -27,6 +29,6 @@ import { User } from 'src/users/user.entity';
     TypeOrmModule.forFeature([User])
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, UsersService],
+  providers: [AuthService, JwtStrategy, UsersService, GoogleStrategy, GoogleAuthGuard,],
 })
 export class AuthModule {}

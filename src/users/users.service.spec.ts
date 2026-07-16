@@ -198,6 +198,32 @@ describe('UsersService', () => {
 
   });
 
+  describe('createFromGoogle()', () => {
+
+    it('should create a Google user with a hashed placeholder password', async () => {
+      const googleData = {
+        username: 'ana',
+        email: 'ana@test.com',
+        googleId: 'google-123',
+        avatarUrl: 'https://example.com/avatar.png',
+      };
+      const createdUser = { id: USER_ID, ...googleData, isActive: true };
+
+      (bcrypt.hash as jest.Mock).mockResolvedValue('$2b$10$googlehash');
+      mockUserRepository.create.mockReturnValue(createdUser);
+      mockUserRepository.save.mockResolvedValue(createdUser);
+
+      const result = await service.createFromGoogle(googleData);
+
+      expect(bcrypt.hash).toHaveBeenCalledWith(expect.any(String), 10);
+      expect(mockUserRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({ ...googleData, isActive: true, password: '$2b$10$googlehash' }),
+      );
+      expect(result).toEqual(createdUser);
+    });
+
+  });
+
   describe('updateProfile()', () => {
 
     it('should throw NotFoundException when user does not exist', async () => {
